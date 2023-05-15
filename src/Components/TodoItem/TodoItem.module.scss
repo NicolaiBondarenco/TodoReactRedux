@@ -1,0 +1,40 @@
+.root {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(167, 72, 255);
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 25px;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.wrapperImg {
+  width: 20px;
+  height: 20px;
+}
+
+.boxtext {
+  padding: 5px;
+  & p {
+    margin-bottom: 10px;
+  }
+}
+
+.img {
+  width: 20px;
+}
+
+.text {
+  word-break: break-all;
+  color: #fff;
+}
+
+.boxbtn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

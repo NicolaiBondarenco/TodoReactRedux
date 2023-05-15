@@ -1,0 +1,14 @@
+.root {
+  border: none;
+  background-color: #551177;
+  border-radius: 10px;
+  padding: 5px;
+  margin-bottom: 5px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  cursor: pointer;
+  & img {
+    width: 30px;
+  }
+}

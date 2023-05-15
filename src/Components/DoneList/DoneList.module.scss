@@ -1,0 +1,50 @@
+.root {
+  position: relative;
+  margin: 0 auto;
+  padding: 25px;
+  width: 500px;
+  background-color: #551177;
+  border-radius: 10px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.text {
+  color: #d5c867;
+  text-align: center;
+}
+
+.btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  float: right;
+  font-size: 14px;
+  background-color: #ab4ac6;
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 5px;
+  color: #fefdfd;
+  cursor: pointer;
+}
+
+.item {
+  color: #fff;
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgb(167, 72, 255);
+}
+
+.itemText {
+  font-weight: 500;
+  &:first-child {
+    margin-bottom: 10px;
+  }
+}
