@@ -40,11 +40,11 @@
   padding: 10px;
   border-radius: 5px;
   background-color: rgb(167, 72, 255);
-}
-
-.itemText {
-  font-weight: 500;
-  &:first-child {
+  & p {
+    font-weight: 500;
     margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }

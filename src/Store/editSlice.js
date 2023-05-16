@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   editedTodo: {
-    title: null,
+    name: null,
     desc: null,
     time: null,
     id: null,
@@ -18,22 +18,14 @@ export const editSlice = createSlice({
       state.editedTodo = action.payload
     },
     closeEditedBlock: (state) => {
+      state.editedTodo = initialState.editedTodo
+    },
+    changeMultiply: (state, action) => {
+      const { value, name } = action.payload
       state.editedTodo = {
-        title: null,
-        desc: null,
-        time: null,
-        id: null,
-        done: null,
+        ...state.editedTodo,
+        [name]: value,
       }
-    },
-    changeName: (state, action) => {
-      state.editedTodo.title = action.payload
-    },
-    changeDesc: (state, action) => {
-      state.editedTodo.desc = action.payload
-    },
-    changeTime: (state, action) => {
-      state.editedTodo.time = action.payload
     },
   },
 })
@@ -41,9 +33,7 @@ export const editSlice = createSlice({
 export const {
   openEditBlock,
   closeEditedBlock,
-  changeName,
-  changeDesc,
-  changeTime,
+  changeMultiply,
 } = editSlice.actions
 
 export default editSlice.reducer

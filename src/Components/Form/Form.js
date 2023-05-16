@@ -4,56 +4,66 @@ import { v4 as uuidv4 } from 'uuid'
 import { addTodos } from '../../Store/todoSlice'
 import { Button } from '../../ui/Button/Button'
 import { Input } from '../../ui/Input/Input'
-
+import addIcon from '../../Assets/images/add.png'
 import styles from './Form.module.scss'
 
-const addIcon = require('../../Assets/images/add.png')
-
 export const Form = () => {
-  const [name, setName] = useState('')
-  const [desc, setDesc] = useState('')
-  const [time, setTime] = useState('')
+  const [formData, setFormData] = useState({
+    name: '',
+    desc: '',
+    time: '',
+  })
   const dispatch = useDispatch()
+
+  const handleChange = (value, name) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }))
+  }
 
   const addTask = (e) => {
     e.preventDefault()
-    const trimName = name.trim()
-    const trimDesc = desc.trim()
-    if (trimName === '' && trimDesc === '') return
+    if (formData.name.trim() === '' && formData.desc.trim() === '') return
     const createId = uuidv4()
     dispatch(
       addTodos({
-        title: name,
-        desc: desc,
-        time: time,
+        name: formData.name,
+        desc: formData.desc,
+        time: formData.time,
         id: createId,
         done: false,
       }),
     )
-    setName('')
-    setDesc('')
-    setTime('')
+    setFormData({
+      name: '',
+      desc: '',
+      time: '',
+    })
   }
 
   return (
-    <form className={styles.root} action="#" method="post">
+    <form className={styles.root}>
       <div className={styles.wrapper}>
         <Input
           type="text"
           placeholder="Name task..."
-          value={name}
-          onHandleChange={(e) => setName(e.target.value)}
+          value={formData.name}
+          name="name"
+          onHandleChange={handleChange}
         />
         <Input
           type="text"
           placeholder="Desc task..."
-          value={desc}
-          onHandleChange={(e) => setDesc(e.target.value)}
+          value={formData.desc}
+          name="desc"
+          onHandleChange={handleChange}
         />
         <Input
           type="date"
-          value={time}
-          onHandleChange={(e) => setTime(e.target.value)}
+          value={formData.time}
+          name="time"
+          onHandleChange={handleChange}
         />
       </div>
       <Button image={addIcon} type="submit" onHandleClick={(e) => addTask(e)} />

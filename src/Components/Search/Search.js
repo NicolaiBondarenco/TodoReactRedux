@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setVisibleTodos } from '../../Store/todoSlice'
@@ -11,14 +11,20 @@ export const Search = () => {
   const dispatch = useDispatch()
 
   const searchTask = (e) => {
+    if (!e.target.value) {
+      dispatch(setVisibleTodos([]))
+      return
+    }
+
     let visibleTasks = allTodos.filter((element) => {
-      return (element.title + element.desc + element.time)
+      const { name, desc, time } = element
+      return (name + desc + time)
         .toLowerCase()
-        .indexOf(e.target.value.toLocaleLowerCase()) > -1
+        .includes(e.target.value.toLowerCase())
         ? element
         : null
     })
-    if (e.target.value === '') visibleTasks = []
+
     dispatch(setVisibleTodos(visibleTasks))
   }
 

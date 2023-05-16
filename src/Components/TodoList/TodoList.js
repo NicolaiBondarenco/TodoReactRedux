@@ -13,26 +13,27 @@ export const TodoList = () => {
 
   const renderArray = visibleTodos.length > 0 ? visibleTodos : allTodos
 
+  const renderTodoItem = (todo) => {
+    return (
+      <TodoItem
+        name={todo.name}
+        desc={todo.desc}
+        time={todo.time}
+        key={todo.id}
+        id={todo.id}
+        done={todo.done}
+      />
+    )
+  }
+
   return (
     <div className={styles.root}>
       <Search />
       <h2 className={styles.title}>Todo List</h2>
-      {editedTodo.id ? <EditTodo /> : <Form />}
+      {editedTodo.id && <EditTodo />}
+      {!editedTodo.id && <Form />}
       {allTodos.length >= 1 ? (
-        <ul>
-          {renderArray.map((el) => {
-            return (
-              <TodoItem
-                title={el.title}
-                desc={el.desc}
-                time={el.time}
-                key={el.id}
-                id={el.id}
-                done={el.done}
-              />
-            )
-          })}
-        </ul>
+        <ul>{renderArray.map(renderTodoItem)}</ul>
       ) : (
         <p className={styles.text}> Please add your task!!!</p>
       )}

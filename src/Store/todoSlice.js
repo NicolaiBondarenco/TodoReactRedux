@@ -11,44 +11,32 @@ export const todosSlice = createSlice({
   initialState,
   reducers: {
     addTodos: (state, action) => {
-      state.allTodos = [...state.allTodos, action.payload]
+      state.allTodos.push(action.payload)
     },
     removeTodos: (state, action) => {
-      state.allTodos = state.allTodos.filter((el) => el.id !== action.payload)
-      state.doneTodo = state.allTodos.filter(
-        (el) => el.id !== action.payload && el.done,
-      )
-      state.visibleTodos = state.allTodos.filter(
-        (el) => el.id !== action.payload,
+      const idToRemove = action.payload
+      state.allTodos = state.allTodos.filter((el) => el.id !== idToRemove)
+      state.doneTodo = state.doneTodo.filter((el) => el.id !== idToRemove)
+      state.visibleTodos = state.visibleTodos.filter(
+        (el) => el.id !== idToRemove,
       )
     },
     toggleDoneTodos: (state, action) => {
-      const idx = state.allTodos.findIndex((el) => el.id === action.payload)
-      const oldItem = state.allTodos[idx]
-      const newItem = {
-        ...oldItem,
-        done: !oldItem.done,
+      const idToToggle = action.payload
+      const todo = state.allTodos.find((el) => el.id === idToToggle)
+      if (todo) {
+        todo.done = !todo.done
+        state.doneTodo = state.allTodos.filter((el) => el.done)
+        state.visibleTodos = state.allTodos.map((el) => el)
       }
-      state.allTodos = [
-        ...state.allTodos.slice(0, idx),
-        newItem,
-        ...state.allTodos.slice(idx + 1),
-      ]
-      state.doneTodo = state.allTodos.filter((el) => el.done === true)
-      state.visibleTodos = state.allTodos.filter((el) => el.id === newItem)
     },
     editingTodos: (state, action) => {
-      const idx = state.allTodos.findIndex((el) => el.id === action.payload.id)
-      let oldItem = state.allTodos[idx]
-      oldItem = { ...action.payload }
-      const newArr = (arr) => {
-        return [...arr.slice(0, idx), oldItem, ...arr.slice(idx + 1)]
+      const updatedTodo = action.payload
+      const idx = state.allTodos.findIndex((el) => el.id === updatedTodo.id)
+      if (idx !== -1) {
+        state.allTodos[idx] = updatedTodo
+        state.doneTodo = state.allTodos.filter((el) => el.done)
       }
-      state.allTodos = newArr(state.allTodos)
-      state.doneTodo = state.doneTodo.map((el) => {
-        if (el.id === oldItem.id) el = oldItem
-        return el
-      })
     },
     setVisibleTodos: (state, action) => {
       state.visibleTodos = action.payload

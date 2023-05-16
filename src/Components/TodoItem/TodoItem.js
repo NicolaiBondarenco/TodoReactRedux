@@ -3,61 +3,48 @@ import { useDispatch } from 'react-redux'
 import { removeTodos, toggleDoneTodos } from '../../Store/todoSlice'
 import { openEditBlock } from '../../Store/editSlice'
 import { Button } from '../../ui/Button/Button'
+import { TodoProperty } from '../TodoProperty/TodoProperty '
+
+import checkMarkIcon from '../../Assets/images/checkmark.png'
+import markIcon from '../../Assets/images/mark.png'
+import trashIcon from '../../Assets/images/trash.png'
+import editIcon from '../../Assets/images/edit.png'
 
 import styles from './TodoItem.module.scss'
 
-const checkMarkIcon = require('../../Assets/images/checkmark.png')
-const markIcon = require('../../Assets/images/mark.png')
-const trashIcon = require('../../Assets/images/trash.png')
-const editIcon = require('../../Assets/images/edit.png')
-
-export const TodoItem = ({ title, desc, time, id, done }) => {
+export const TodoItem = ({ name, desc, time, id, done }) => {
   const dispatch = useDispatch()
+
+  const handleToggleDone = () => {
+    dispatch(toggleDoneTodos(id))
+  }
+
+  const handleEdit = () => {
+    dispatch(openEditBlock({ name, desc, time, id, done }))
+  }
+
+  const handleRemove = () => {
+    dispatch(removeTodos(id))
+  }
 
   return (
     <li className={styles.root}>
       <div className={styles.wrapper}>
         <div className={styles.wrapperImg}>
-          {done ? (
+          {done && (
             <img className={styles.img} src={checkMarkIcon} alt="CheckMark" />
-          ) : null}
+          )}
         </div>
         <div className={styles.boxtext}>
-          <p>
-            Name: <span className={styles.text}>{title}</span>
-          </p>
-
-          <p>
-            Desc: <span className={styles.text}>{desc}</span>
-          </p>
-          <p>
-            Time frame: <span className={styles.text}>{time}</span>
-          </p>
+          <TodoProperty title="Name" text={name} />
+          <TodoProperty title="Desc" text={desc} />
+          <TodoProperty title="Time frame" text={time} />
         </div>
       </div>
       <div className={styles.boxbtn}>
-        <Button
-          image={markIcon}
-          onHandleClick={() => dispatch(toggleDoneTodos(id))}
-        />
-        <Button
-          image={editIcon}
-          onHandleClick={() => {
-            dispatch(
-              openEditBlock({
-                title: title,
-                desc: desc,
-                time: time,
-                id: id,
-                done: done,
-              }),
-            )
-          }}
-        />
-        <Button
-          image={trashIcon}
-          onHandleClick={() => dispatch(removeTodos(id))}
-        />
+        <Button image={markIcon} onHandleClick={handleToggleDone} />
+        <Button image={editIcon} onHandleClick={handleEdit} />
+        <Button image={trashIcon} onHandleClick={handleRemove} />
       </div>
     </li>
   )

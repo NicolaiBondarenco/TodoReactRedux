@@ -20,17 +20,13 @@
 .boxtext {
   padding: 5px;
   & p {
+    font-weight: 500;
     margin-bottom: 10px;
   }
 }
 
 .img {
   width: 20px;
-}
-
-.text {
-  word-break: break-all;
-  color: #fff;
 }
 
 .boxbtn {

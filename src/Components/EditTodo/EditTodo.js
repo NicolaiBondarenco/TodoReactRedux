@@ -1,13 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  closeEditedBlock,
-  changeName,
-  changeDesc,
-  changeTime,
-} from '../../Store/editSlice'
-import { editingTodos } from '../../Store/todoSlice'
-import { setVisibleTodos } from '../../Store/todoSlice'
+import { closeEditedBlock, changeMultiply } from '../../Store/editSlice'
+import { editingTodos, setVisibleTodos } from '../../Store/todoSlice'
 import { Input } from '../../ui/Input/Input'
 
 import styles from './EditTodo.module.scss'
@@ -16,45 +10,51 @@ export const EditTodo = () => {
   const { editedTodo } = useSelector((state) => state.editTodos)
   const dispatch = useDispatch()
 
+  const handleChangeMultiply = (value, name) => {
+    dispatch(changeMultiply({ value, name }))
+  }
+
+  const handleSave = (e) => {
+    e.preventDefault()
+    dispatch(
+      editingTodos({
+        desc: editedTodo.desc,
+        done: editedTodo.done,
+        id: editedTodo.id,
+        time: editedTodo.time,
+        name: editedTodo.name,
+      }),
+    )
+    dispatch(closeEditedBlock())
+    dispatch(setVisibleTodos([]))
+  }
+
+  const handleClose = () => {
+    dispatch(closeEditedBlock())
+  }
+
   return (
-    <form className={styles.root} action="#" method="post">
+    <form className={styles.root}>
       <Input
         type="text"
         placeholder="Name task..."
-        value={editedTodo.title}
-        onHandleChange={(e) => dispatch(changeName(e.target.value))}
+        value={editedTodo.name}
+        name="name"
+        onHandleChange={handleChangeMultiply}
       />
       <Input
         type="text"
         placeholder="Desc task..."
         value={editedTodo.desc}
-        onHandleChange={(e) => dispatch(changeDesc(e.target.value))}
+        name="desc"
+        onHandleChange={handleChangeMultiply}
       />
-      <Input
-        type="date"
-        onHandleChange={(e) => dispatch(changeTime(e.target.value))}
-      />
+      <Input type="date" name="time" onHandleChange={handleChangeMultiply} />
       <div className={styles.wrapper}>
-        <button
-          type="submit"
-          onClick={(e) => {
-            e.preventDefault()
-            dispatch(
-              editingTodos({
-                desc: editedTodo.desc,
-                done: editedTodo.done,
-                id: editedTodo.id,
-                time: editedTodo.time,
-                title: editedTodo.title,
-              }),
-            )
-            dispatch(closeEditedBlock())
-            dispatch(setVisibleTodos([]))
-          }}
-        >
+        <button type="submit" onClick={handleSave}>
           Save
         </button>
-        <button onClick={() => dispatch(closeEditedBlock())} type="button">
+        <button onClick={handleClose} type="button">
           Close
         </button>
       </div>
